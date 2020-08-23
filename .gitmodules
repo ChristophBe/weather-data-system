@@ -1,0 +1,6 @@
+[submodule "weather-data-server"]
+	path = weather-data-server
+	url = git@github.com:ChristophBe/weather-data-server.git
+[submodule "weather-data-webapp"]
+	path = weather-data-webapp
+	url = git@github.com:ChristophBe/weather-data-webapp.git
