@@ -1,9 +1,5 @@
 version: '3'
 
- 
-networks:
-   backend:
-      driver: bridge
 services:
   api:
     build: ./weather-data-server
@@ -12,24 +8,27 @@ services:
     - "8080:8080"
     links:
     - "db:db"
-    networks:
-    - backend
 
   web:
     build: ./weather-data-webapp
     restart: unless-stopped
-    ports:
-      - "80:80"
+    
 
   db:
     image: neo4j:latest
+    restart: unless-stopped
     ports:
     - "7474:7474"
     - "7687:7687"
     volumes:
-    - ./neo4j/data:/data
-    networks:
-    - backend
-    environment:
-    -  NEO4J_AUTH=neo4j/example
-
+    - neo4j/data:/data
+ 
+  proxy:
+    build: ./proxy
+    links:
+    - web
+    - api
+    ports:
+      - "80:80"
+      
+    restart: unless-stopped
